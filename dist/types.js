@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var TYPES = {
-    UserService: Symbol('UserService'),
+    UserService: Symbol('IUserService'),
+    UserRepository: Symbol('IUserRepository'),
     Controller: Symbol('Controller')
 };
 exports.default = TYPES;

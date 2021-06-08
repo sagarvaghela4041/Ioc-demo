@@ -1,5 +1,6 @@
 const TYPES = {
-    UserService: Symbol('UserService'),
+    UserService: Symbol('IUserService'),
+    UserRepository: Symbol('IUserRepository'),
     Controller: Symbol('Controller')
 };
 
