@@ -26,9 +26,8 @@ export class UserRepositoryImpl implements IUserRepository {
 
     async getUser(req: Request, res: Response): Promise<void> {
         const userId = req.params.id;
-        const user = await this.connection.getRepository(User).findOne({ id: parseInt(userId) })
+        const user = await this.connection.getRepository(User).findOne({ id: parseInt(userId) });
         res.status(200).send(user);
-
     }
 
 }

@@ -13,5 +13,4 @@ export class User implements IUserInterface {
 
     @Column()
     name: string = '';
-
 }

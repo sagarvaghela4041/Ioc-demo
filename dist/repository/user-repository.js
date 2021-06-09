@@ -66,7 +66,7 @@ var UserRepositoryImpl = /** @class */ (function () {
                         return [4 /*yield*/, userRepository.save(user)];
                     case 1:
                         savedUser = _a.sent();
-                        res.send(200).send(savedUser);
+                        res.status(200).send(savedUser);
                         return [2 /*return*/];
                 }
             });
