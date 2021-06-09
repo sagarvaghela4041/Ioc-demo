@@ -24,7 +24,8 @@ var UserController = /** @class */ (function () {
     }
     UserController.prototype.register = function (app) {
         var _this = this;
-        app.route('/test').get(function (req, res) { return _this.userService.getUser(); });
+        app.route('/user').post(function (req, res) { return _this.userService.saveUser(req, res); });
+        app.route('/user/:id').get(function (req, res) { return _this.userService.getUser(req, res); });
     };
     UserController = __decorate([
         inversify_1.injectable(),

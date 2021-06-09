@@ -1,9 +1,11 @@
+import { Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import { IUserRepository } from "../repository/user-repository";
 import TYPES from "../types";
 
 export interface IUserService {
-    getUser(): void;
+    saveUser(req: Request, res: Response): void;
+    getUser(req: Request, res: Response): void;
 }
 @injectable()
 export class UserServiceImpl implements IUserService {
@@ -13,9 +15,14 @@ export class UserServiceImpl implements IUserService {
     constructor(@inject(TYPES.UserRepository) userRepository: IUserRepository) {
         this.userRepository = userRepository;
     }
-    getUser(): void {
+
+    saveUser(req: Request, res: Response): void {
+        this.userRepository.saveUser(req, res);
+    }
+
+    getUser(req: Request, res: Response): void {
         console.log(`In Service Layer...`);
-        this.userRepository.getUser();
+        this.userRepository.getUser(req, res);
     }
 
 }

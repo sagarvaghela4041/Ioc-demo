@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,35 +47,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepositoryImpl = void 0;
 var inversify_1 = require("inversify");
-var typeorm_1 = require("typeorm");
 var user_schema_1 = require("../model/user-schema");
 var database_service_1 = require("../service/database-service");
 var UserRepositoryImpl = /** @class */ (function () {
     function UserRepositoryImpl() {
+        var _this = this;
+        var databaseService = new database_service_1.DatabaseService();
+        databaseService.getConnection().then(function (connection) { return _this.connection = connection; });
     }
-    UserRepositoryImpl.prototype.getUser = function () {
+    UserRepositoryImpl.prototype.saveUser = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var databaseService, connection, user;
+            var user, userRepository, savedUser;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log('In Repository...');
-                        databaseService = new database_service_1.DatabaseService();
-                        return [4 /*yield*/, databaseService.getConnection()];
+                        user = req.body;
+                        userRepository = this.connection.getRepository(user_schema_1.User);
+                        return [4 /*yield*/, userRepository.save(user)];
                     case 1:
-                        _a.sent();
-                        connection = typeorm_1.getConnection();
-                        user = new user_schema_1.User();
-                        user.name = 'sagar vaghela';
-                        connection.manager.save(user);
-                        console.log(connection.getRepository(user_schema_1.User).findOne({ id: 1 }));
+                        savedUser = _a.sent();
+                        res.send(200).send(savedUser);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserRepositoryImpl.prototype.getUser = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var userId, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        userId = req.params.id;
+                        return [4 /*yield*/, this.connection.getRepository(user_schema_1.User).findOne({ id: parseInt(userId) })];
+                    case 1:
+                        user = _a.sent();
+                        res.status(200).send(user);
                         return [2 /*return*/];
                 }
             });
         });
     };
     UserRepositoryImpl = __decorate([
-        inversify_1.injectable()
+        inversify_1.injectable(),
+        __metadata("design:paramtypes", [])
     ], UserRepositoryImpl);
     return UserRepositoryImpl;
 }());

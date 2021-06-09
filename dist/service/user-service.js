@@ -22,9 +22,12 @@ var UserServiceImpl = /** @class */ (function () {
     function UserServiceImpl(userRepository) {
         this.userRepository = userRepository;
     }
-    UserServiceImpl.prototype.getUser = function () {
+    UserServiceImpl.prototype.saveUser = function (req, res) {
+        this.userRepository.saveUser(req, res);
+    };
+    UserServiceImpl.prototype.getUser = function (req, res) {
         console.log("In Service Layer...");
-        this.userRepository.getUser();
+        this.userRepository.getUser(req, res);
     };
     UserServiceImpl = __decorate([
         inversify_1.injectable(),

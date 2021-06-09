@@ -14,7 +14,8 @@ export class UserController implements RegistrableController {
     }
 
     register(app: express.Application): void {
-        app.route('/test').get((req: Request, res: Response) => this.userService.getUser())
+        app.route('/user').post((req: Request, res: Response) => this.userService.saveUser(req, res));
+        app.route('/user/:id').get((req: Request, res: Response) => this.userService.getUser(req, res));
 
     }
 }

@@ -48,7 +48,7 @@ var DatabaseService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, typeorm_1.createConnection()];
                     case 1:
                         _a.sent();
-                        return [2 /*return*/];
+                        return [2 /*return*/, typeorm_1.getConnection()];
                 }
             });
         });

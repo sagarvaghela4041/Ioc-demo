@@ -1,8 +1,9 @@
-import { createConnection } from "typeorm";
+import { Connection, createConnection, getConnection } from "typeorm";
 
 export class DatabaseService {
-    async getConnection(): Promise<void> {
+    async getConnection(): Promise<Connection> {
         await createConnection();
+        return getConnection();
     }
-
 }
+

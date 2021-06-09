@@ -1,23 +1,33 @@
+import { Request, Response } from "express";
 import { injectable } from "inversify";
-import { createConnection, getConnection } from "typeorm";
+import { Any, Connection, getConnection } from "typeorm";
 import { User } from "../model/user-schema";
 import { DatabaseService } from "../service/database-service";
 
 export interface IUserRepository {
-    getUser(): void;
+    connection: Connection;
+    saveUser(req: Request, res: Response): void;
+    getUser(req: Request, res: Response): void;
 }
 
 @injectable()
 export class UserRepositoryImpl implements IUserRepository {
-    async getUser(): Promise<void> {
-        console.log('In Repository...');
+    connection!: Connection;
+    constructor() {
         const databaseService = new DatabaseService();
-        await databaseService.getConnection();
-        const connection = getConnection();
-        const user = new User();
-        user.name = 'sagar test 2';
-        await connection.manager.save(user);
-        console.log(await connection.getRepository(User).findOne({ id: 1 }));
+        databaseService.getConnection().then(connection => this.connection = connection);
+    }
+    async saveUser(req: Request, res: Response): Promise<void> {
+        const user = req.body;
+        const userRepository = this.connection.getRepository(User);
+        const savedUser = await userRepository.save(user);
+        res.status(200).send(savedUser);
+    }
+
+    async getUser(req: Request, res: Response): Promise<void> {
+        const userId = req.params.id;
+        const user = await this.connection.getRepository(User).findOne({ id: parseInt(userId) })
+        res.status(200).send(user);
 
     }
 
