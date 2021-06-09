@@ -32,7 +32,6 @@ export class UserServiceImpl implements IUserService {
     }
 
     getUser(req: Request, res: Response): void {
-        console.log(`In Service Layer...`);
         this.userRepository.getUser(req, res);
     }
 

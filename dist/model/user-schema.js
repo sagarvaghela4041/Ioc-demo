@@ -13,8 +13,6 @@ exports.User = void 0;
 var typeorm_1 = require("typeorm");
 var User = /** @class */ (function () {
     function User() {
-        this.id = 0;
-        this.name = '';
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),

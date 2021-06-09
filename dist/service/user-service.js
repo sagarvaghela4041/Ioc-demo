@@ -56,13 +56,14 @@ var class_validator_1 = require("class-validator");
 var inversify_1 = require("inversify");
 var user_1 = require("../model/user");
 var types_1 = __importDefault(require("../types"));
+var validation_service_1 = require("./validation-service");
 var UserServiceImpl = /** @class */ (function () {
     function UserServiceImpl(userRepository) {
         this.userRepository = userRepository;
     }
     UserServiceImpl.prototype.saveUser = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, validationResult;
+            var user, validationResult, validationService;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -71,7 +72,8 @@ var UserServiceImpl = /** @class */ (function () {
                     case 1:
                         validationResult = _a.sent();
                         if (validationResult === null || validationResult === void 0 ? void 0 : validationResult.length) {
-                            res.send(validationResult);
+                            validationService = new validation_service_1.ValidationService();
+                            res.send(validationService.createResponse(validationResult));
                         }
                         else {
                             this.userRepository.saveUser(req, res);
@@ -82,7 +84,6 @@ var UserServiceImpl = /** @class */ (function () {
         });
     };
     UserServiceImpl.prototype.getUser = function (req, res) {
-        console.log("In Service Layer...");
         this.userRepository.getUser(req, res);
     };
     UserServiceImpl = __decorate([
